@@ -1,1 +1,1 @@
-# eda-and-predicting-rating-imdb
+# EDA and IMDb Rating Prediction 
