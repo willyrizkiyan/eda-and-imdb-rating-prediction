@@ -1,5 +1,4 @@
 import streamlit as st
-import lorem
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
