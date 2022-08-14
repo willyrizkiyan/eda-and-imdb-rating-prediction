@@ -15,6 +15,7 @@ from sklearn.svm import SVR
 from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
 from lightgbm import LGBMRegressor
+from sklearn.preprocessing import StandardScaler
 
 
 st.set_page_config(page_title="IMDb Dashboard", layout="wide")
@@ -109,7 +110,7 @@ with img2:
 with img3:
     st.image('https://m.media-amazon.com/images/M/MV5BMjM2MDgxMDg0Nl5BMl5BanBnXkFtZTgwNTM2OTM5NDE@._V1_.jpg', width=200)
 if success == 'Avengers: Endgame':
-    st.subheader('You Are Right')
+    st.success('You Are Right')
     bud1, bud2 = st.columns([3,2])
 
     data_sort_budget = data.sort_values('budget', ascending=False).head(10).reset_index(drop=True)
@@ -143,7 +144,7 @@ if success == 'Avengers: Endgame':
         st.write('\n')
         st.subheader('Avengers : Endgame is the most successful movie until now')
 elif success == 'Avengers: Infinity War':
-    st.subheader('Sorry')
+    st.error('Sorry')
     bud1, bud2 = st.columns([3,2])
 
     data_sort_budget = data.sort_values('budget', ascending=False).head(10).reset_index(drop=True)
@@ -178,7 +179,7 @@ elif success == 'Avengers: Infinity War':
         st.subheader('Avengers : Endgame is the most successful movie until now')
 
 elif success == 'Jurassic Park':
-    st.subheader('Sorry')
+    st.error('Sorry')
     bud1, bud2 = st.columns([3,2])
 
     data_sort_budget = data.sort_values('budget', ascending=False).head(10).reset_index(drop=True)
@@ -213,7 +214,7 @@ elif success == 'Jurassic Park':
         st.subheader('Avengers : Endgame is the most successful movie until now')
 
 else:
-    st.write('Please pick one first')
+    st.info('Please pick one first')
 
 
 st.subheader('Hypothesis Testing using ANOVA')
@@ -221,7 +222,7 @@ st.subheader('Hypothesis Testing using ANOVA')
 tes1, tes2 = st.columns(2)
 with tes1:
     alpha = st.slider('Alpha', min_value=0.01, max_value=0.1, value=0.05, step=0.01)
-    type = st.radio('Parental Guide', ('Nudity', 'Violence', 'Profanity', 'Alcohol', 'Frightening'))
+    type = st.radio('Parental Guide', ('Violence', 'Nudity', 'Profanity', 'Alcohol', 'Frightening'))
     type = type.lower()
     none = data[data[type]=='None']
     mild = data[data[type]=='Mild']
@@ -346,15 +347,15 @@ with mac1:
 with mac2:
     answer_ridge = st.selectbox('Which one best alpha for Ridge Regression:', ('',0.01,0.1,1,10,100), index=0)
     if answer_ridge == 0.01:
-        'You Are Right. It has lowest RMSE'
+        st.success('You Are Right. It has lowest RMSE')
     elif answer_ridge == '':
         ''
     else:
-        'Sorry'
+        st.error('Sorry')
 
     answer_lasso = st.selectbox('Which one best alpha for Lasso Regression:', ('',0.01,0.1,1,10,100), index=0)
     if answer_lasso == 0.01:
-        'You Are Right. It has lowest RMSE'
+        st.success('You Are Right. It has lowest RMSE')
         if alpha == 0.01:
             st.subheader('Result for the best alpha')
             st.write('R-squared for Ridge Regression is {}'.format(r2_score(y_rate_train, y_predict_train_ridge)))
@@ -364,7 +365,7 @@ with mac2:
     elif answer_lasso == '':
         ''
     else:
-        'Sorry'
+        st.error('Sorry')
         if alpha == 0.01:
             st.subheader('Result for the best alpha')
             st.write('R-squared for Ridge Regression is {}'.format(r2_score(y_rate_train, y_predict_train_ridge)))
@@ -386,8 +387,6 @@ def rmse_score(test, pred):
 
 # Print the scores
 def print_score(test, pred):
-    
-    st.write(f"- Regressor: {regr.__class__.__name__}")
     st.write(f"R²: {rsqr_score(test, pred)}")
     st.write(f"RMSE: {rmse_score(test, pred)}\n")
 
@@ -402,11 +401,225 @@ rdf = RandomForestRegressor()
 xgboost = XGBRegressor()
 lgbm = LGBMRegressor()
 
+model1, model2, model3, model4, model5 = st.columns(5)
+with model1:
+    st.write("- Regressor : Elastic Net")
+    elastic.fit(X_train, y_train)
+    y_pred = elastic.predict(X_test)
+    print_score(y_test, y_pred)
+with model2:
+    st.write("- Regressor : SVR")
+    svr.fit(X_train, y_train)
+    y_pred = svr.predict(X_test)
+    print_score(y_test, y_pred)
+with model3:
+    st.write("- Regressor : Random Forest")
+    rdf.fit(X_train, y_train)
+    y_pred = rdf.predict(X_test)
+    print_score(y_test, y_pred)
+with model4:
+    st.write("- Regressor : XGBoost")
+    xgboost.fit(X_train, y_train)
+    y_pred = xgboost.predict(X_test)
+    print_score(y_test, y_pred)
+with model5:
+    st.write("- Regressor : Light GBM")
+    lgbm.fit(X_train, y_train)
+    y_pred = lgbm.predict(X_test)
+    print_score(y_test, y_pred)
+
+
+
+st.subheader('Prediction')
+st.write('\n')
+st.write('\n')
+st.write('Please specify the variable :')
+data_modelling = pd.read_csv('data_for_modelling.txt', sep='\t')
+data_actor = pd.read_csv('actor rank.csv', sep='\t')
+
+data_actor['actor'] = data_actor['actor'].str.lower()
+
+cols = ['nudity', 'violence', 'profanity', 'alcohol', 'frightening']
+data_modelling[cols] = data_modelling[cols].replace({'None':0, 'Mild':1, 'Moderate':2, 'Severe':3, 'No Rate':0})
+
+data_modelling = data_modelling.dropna()
+
+# Modelling
+feature = data_modelling.drop(columns='worldwide_gross')
+target = data_modelling['worldwide_gross']
+
+from sklearn.model_selection import train_test_split
+
+X = data_modelling.drop('worldwide_gross', axis=1)
+y = data_modelling['worldwide_gross']
+
+scaling = StandardScaler()
+scaling.fit(X)
+X = scaling.transform(X)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.4,shuffle=True)
+
+ridge = Ridge(alpha=0.001)
+lasso = Lasso(alpha=0.001)
+elastic = ElasticNet(alpha=0.001)
+svr = SVR()
+rdf = RandomForestRegressor()
+xgboost = XGBRegressor()
+lgbm = LGBMRegressor()
+
+@st.cache(suppress_st_warning = True)
+def rsqr_score(test, pred):
+    r2_ = r2_score(test, pred)
+    return r2_
+
+
+@st.cache(suppress_st_warning = True)
+def rmse_score(test, pred):
+    
+    rmse_ = np.sqrt(mean_squared_error(test, pred))
+    return rmse_
+
+@st.cache(suppress_st_warning = True)
+def print_score(test, pred):
+    
+    print(f"- Regressor: {lgbm.__class__.__name__}")
+    print(f"R²: {rsqr_score(test, pred)}")
+    print(f"RMSE: {rmse_score(test, pred)}\n")
+
 # Train models on X_train and y_train
-for regr in [elastic, svr, rdf, xgboost, lgbm]:
+for regr in [ridge, lasso, elastic, svr, rdf, xgboost, lgbm]:
     # fit the corresponding model
     regr.fit(X_train, y_train)
     y_pred = regr.predict(X_test)
     # Print the defined metrics above for each classifier
     print_score(y_test, y_pred)
 
+act1, act2, act3, act4 = st.columns(4)
+with act1:
+    a1 = st.text_input('Input 1st Actor :')
+with act2:
+    a2 = st.text_input('Input 2nd Actor :')
+with act3:
+    a3 = st.text_input('Input 3rd Actor :')
+with act4:
+    a4 = st.text_input('Input 4th Actor :')
+
+
+a1_value = data_actor['rank_actor'].loc[data_actor['actor'].str.contains(a1)].to_list()
+if a1_value:
+    a1_value = a1_value[0]
+else:
+    a1_value = 0
+a2_value = data_actor['rank_actor'].loc[data_actor['actor'].str.contains(a2)].to_list()
+if a2_value:
+    a2_value = a2_value[0]
+else:
+    a2_value = 0
+a3_value = data_actor['rank_actor'].loc[data_actor['actor'].str.contains(a3)].to_list()
+if a3_value:
+    a3_value = a3_value[0]
+else:
+    a3_value = 0
+a4_value = data_actor['rank_actor'].loc[data_actor['actor'].str.contains(a4)].to_list()
+if a4_value:
+    a4_value = a4_value[0]
+else:
+    a4_value = 0
+total_value = a1_value + a2_value + a3_value + a4_value
+
+set1, set2, set3, set4, set5 = st.columns(5)
+with set1:
+    violence = st.select_slider('Choose Violence:', ('None', 'Mild', 'Moderate','Severe'))
+    if violence == 'Mild':
+        violence = 1
+    elif violence == 'Moderate':
+        violence = 2
+    elif violence == 'Severe':
+        violence = 3
+    else:
+        violence = 0
+with set2:
+    nudity = st.select_slider('Choose Nudity:', ('None', 'Mild', 'Moderate','Severe'))
+    if nudity == 'Mild':
+        nudity = 1
+    elif nudity == 'Moderate':
+        nudity = 2
+    elif nudity == 'Severe':
+        nudity = 3
+    else:
+        nudity = 0
+with set3:
+    profanity = st.select_slider('Choose Profanity:', ('None', 'Mild', 'Moderate','Severe'))
+    if profanity == 'Mild':
+        profanity = 1
+    elif profanity == 'Moderate':
+        profanity = 2
+    elif profanity == 'Severe':
+        profanity = 3
+    else:
+        profanity = 0
+with set4:
+    alcohol = st.select_slider('Choose Alcohol:', ('None', 'Mild', 'Moderate','Severe'))
+    if alcohol == 'Mild':
+        alcohol = 1
+    elif alcohol == 'Moderate':
+        alcohol = 2
+    elif alcohol == 'Severe':
+        alcohol = 3
+    else:
+        alcohol = 0
+with set5:
+    frightening = st.select_slider('Choose Frightening:', ('None', 'Mild', 'Moderate','Severe'))
+    if frightening == 'Mild':
+        frightening = 1
+    elif frightening == 'Moderate':
+        frightening = 2
+    elif frightening == 'Severe':
+        frightening = 3
+    else:
+        frightening = 0
+
+dur, bud = st.columns(2)
+with dur:
+    duration = st.number_input('Movie Duration (in minutes):', min_value=30, max_value=300, value=120)
+    duration = pd.to_numeric(duration)
+with bud:
+    budget = st.number_input('Movie Budget (in USD million):', min_value = 1, max_value=500, value=200)
+    budget = int(budget)*1000000
+
+data_predict = {'duration':duration, 'nudity':nudity, 'violence':violence, 'profanity':profanity,
+                'alcohol':alcohol, 'frightening':frightening, 'budget':budget, 'is_Action':1,
+                'is_Adult':0, 'is_Adventure':0, 'is_Animation':0, 'is_Biography':0,
+                'is_Comedy':1, 'is_Crime':1, 'is_Drama':0, 'is_Family':0,
+                'is_Fantasy':0, 'is_Film-Noir':0, 'is_Horror':0, 'is_History':0,
+                'is_Music':0, 'is_Mystery':0, 'is_Romance':0, 'is_Sci-Fi':0,
+                'is_Sport':0, 'is_Thriller':0, 'is_War':0, 'is_Western':0,
+                'total_star_score':total_value}
+
+data_predict = pd.DataFrame(data_predict, index=[0])
+
+st.write('\n')
+st.write('\n')
+st.write('\n')
+
+res1, res2, res3 = st.columns(3)
+with res1:
+    result1 = rdf.predict(data_predict)
+    hasil1 = int(result1[0])
+    hasil1 = '$ ' + numerize.numerize(hasil1)
+    st.write('**Prediksi menggunakan Random Forest :**')
+    st.info(hasil1)
+
+with res2:
+    result2 = xgboost.predict(data_predict)
+    hasil2 = int(result2[0])
+    hasil2 = '$ ' + numerize.numerize(hasil2)
+    st.write('**Prediksi menggunakan XGBoost :**')
+    st.info(hasil2)
+
+with res3:
+    result3 = lgbm.predict(data_predict)
+    hasil3 = int(result3[0])
+    hasil3 = '$ ' + numerize.numerize(hasil3)
+    st.write('**Prediksi menggunakan Light GBM :**')
+    st.info(hasil3)
