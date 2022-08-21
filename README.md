@@ -1,5 +1,5 @@
 # IMDb Gross Prediction
-My first end-to-end Data Science project. This project includes web scraping, data wrangling, exploratory data analysis, hypothesis testing, modelling machine learning until deployment into web app.
+My first end-to-end Data Science project. This project includes web scraping, data cleaning and manipulation, exploratory data analysis, hypothesis testing, modelling machine learning until deployment into web app.
 The contents of this web app include interactive imdb data dashboard, imdb quiz and imdb gross prediction.
 
 You can try the web app here: 
