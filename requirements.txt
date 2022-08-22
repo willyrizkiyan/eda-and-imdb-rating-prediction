@@ -9,3 +9,4 @@ numerize==0.12
 sklearn==0.0
 xgboost==1.6.1
 lightgbm==3.3.2
+hydralit-components==1.0.10
