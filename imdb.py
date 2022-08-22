@@ -143,7 +143,7 @@ if menu_id == 'Dashboard':
     with race1:
         race = st.checkbox('Race Bar Chart')
         if race:
-            video_file = open('https://github.com/willyrizkiyan/eda-and-imdb-rating-prediction/blob/main/IMDb%20Genre.mp4', 'rb')
+            video_file = open('https://github.com/willyrizkiyan/eda-and-imdb-rating-prediction/blob/main/IMDb%20Genre.mp4?raw=true', 'rb')
             video_bytes = video_file.read()
             st.video(video_bytes)
 
