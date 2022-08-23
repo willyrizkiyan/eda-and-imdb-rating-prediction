@@ -52,7 +52,7 @@ with st.sidebar:
         )
 
 
-data = pd.read_csv('https://raw.githubusercontent.com/willyrizkiyan/eda-and-imdb-rating-prediction/main/imdb%20processed.csv')
+data = pd.read_csv('imdb processed.csv')
 data['star'] = data['star'].str.lower()
 
 
@@ -74,7 +74,7 @@ if menu_id == 'Home':
     However, hobby of watching movies does not have to be "buried", because there are many choices of streaming platforms that can quench the thirst for watching movies.
     ''')
 
-    st.info('This dashboard can be used by people who wants to get recommendation for watching movies and also for film maker to get insight about movies that want to be produced.')
+    st.info('This dashboard and apps can be used by people who wants to get recommendation for watching movies and also for film maker to get insight about movies that want to be produced.')
 
 if menu_id == 'Dashboard':
     '''
@@ -85,6 +85,61 @@ if menu_id == 'Dashboard':
     ***
     '''    
     
+    st.header('Total Movie Every Year')
+    movie1, movie2, movie3 = st.columns(3)
+    with movie1:
+        fig_movie = plt.figure()
+        plt.hist('year', data=data, bins=10)
+        plt.title('Total movie from 1913 - 2022')
+        plt.xlabel('Year')
+        plt.ylabel('Total')
+        st.write(fig_movie)
+
+    with movie2:
+        data_movie = data[(data['year']>=2010) & (data['year']<=2022)]
+        fig_movie = plt.figure()
+        plt.hist('year', data=data_movie, bins=10)
+        plt.title('Total movie from 2010 - 2022')
+        plt.xlabel('Year')
+        plt.ylabel('Total')
+        st.write(fig_movie)
+
+    with movie3:
+        st.info('''
+        Film production relatively continues to increase from year to year.
+
+        However, there has been a decline in the number of times during the COVID-19 pandemic.
+
+        If there is no pandemic, it is predicted that film production will continue to increase.
+        ''')
+
+
+    st.subheader('\n')
+    st.header('Movie Duration Distribution')
+    scatter1, scatter2, scatter3 = st.columns([1,1,1])
+    with scatter1:
+        fig = plt.figure()
+        plt.scatter('year', 'duration', data=data)
+        plt.title('Duration Distribution Over Years')
+        plt.xlabel('Year')
+        plt.ylabel('Duration')
+        st.write(fig)
+
+    with scatter2:
+        fig = plt.figure()
+        plt.hist('duration', data=data, bins=30)
+        plt.title('Duration Distribution')
+        plt.xlabel('Duration')
+        plt.ylabel('Total')
+        st.write(fig)
+
+    with scatter3:
+        st.subheader('\n')
+        st.subheader('\n')
+        st.subheader('\n')
+        st.subheader('Duration of movies mostly around 80 - 120 mins')
+
+    st.subheader('\n')
     st.header('Movie Genre Distribution')
 
     time1, time2, time3, time4, time5 = st.columns([3,2,3,2,9])
@@ -191,24 +246,6 @@ if menu_id == 'Dashboard':
         list_genre.index = list_genre.index + 1
         st.table(list_genre)
 
-    st.subheader('\n')
-    st.header('Movie Duration Distribution')
-    scatter1, scatter2, scatter3 = st.columns([1,1,1])
-    with scatter1:
-        fig = plt.figure()
-        plt.scatter('year', 'duration', data=data)
-        st.write(fig)
-
-    with scatter2:
-        fig = plt.figure()
-        plt.hist('duration', data=data, bins=20)
-        st.write(fig)
-
-    with scatter3:
-        st.subheader('\n')
-        st.subheader('\n')
-        st.subheader('\n')
-        st.subheader('Duration of movies mostly around 80 - 120 mins')
 
     st.subheader('\n')
     st.header('Most Played Actor')
@@ -557,8 +594,8 @@ if menu_id == 'Apps':
 
         data_predict = {'duration':duration, 'nudity':nudity, 'violence':violence, 'profanity':profanity,
                     'alcohol':alcohol, 'frightening':frightening, 'budget':budget, 'is_Action':1,
-                    'is_Adventure':0, 'is_Comedy':1, 'is_Crime':0, 'is_Drama':0,
-                    'is_Romance':0, 'is_Thriller':0, 'is_Other':1,
+                    'is_Adventure':0, 'is_Comedy':1, 'is_Crime':1, 'is_Drama':0,
+                    'is_Romance':0, 'is_Thriller':0, 'is_Other':0,
                     'total_star_score':total_value
                     }
 
