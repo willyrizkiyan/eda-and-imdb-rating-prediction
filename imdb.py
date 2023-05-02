@@ -54,7 +54,7 @@ with st.sidebar:
         )
 
 
-data = pd.read_csv('C:/Users/Willy/Downloads/imdb processed.csv')
+data = pd.read_csv('imdb processed.csv')
 data['star'] = data['star'].str.lower()
 
 
