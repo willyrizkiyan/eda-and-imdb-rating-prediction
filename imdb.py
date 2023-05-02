@@ -54,7 +54,7 @@ with st.sidebar:
         )
 
 
-data = pd.read_csv('imdb processed.csv')
+data = pd.read_csv('C:/Users/Willy/Downloads/imdb processed.csv')
 data['star'] = data['star'].str.lower()
 
 
@@ -86,224 +86,226 @@ if menu_id == 'Dashboard':
     '''
     ***
     '''
-    data_movie = pd.DataFrame(data['year'].value_counts()).reset_index().rename(
-    columns={'index': 'year', 'year':'total'}).sort_values('year')    
+    st.write(data['year'].value_counts().reset_index())
+
+    # data_movie = pd.DataFrame(data['year'].value_counts()).reset_index().rename(
+    # columns={'index': 'year', 'year':'total'}).sort_values('year')    
     
-    st.header('Total Movie Every Year')
-    movie1, movie2= st.columns([2,1])
-    with movie1:
-        fig = px.line(data_movie, x='year', y='total',
-              labels={'year':'Year','total':'Total Film'}, 
-              markers=True, height=400, width = 900)
-        st.write(fig)
+    # st.header('Total Movie Every Year')
+    # movie1, movie2= st.columns([2,1])
+    # with movie1:
+    #     fig = px.line(data_movie, x='year', y='total',
+    #           labels={'year':'Year','total':'Total Film'}, 
+    #           markers=True, height=400, width = 900)
+    #     st.write(fig)
 
-    with movie2:
-        st.subheader('\n')
-        st.subheader('\n')
-        st.subheader('\n')
-        st.info('''
-        Film production relatively continues to increase from year to year.
+    # with movie2:
+    #     st.subheader('\n')
+    #     st.subheader('\n')
+    #     st.subheader('\n')
+    #     st.info('''
+    #     Film production relatively continues to increase from year to year.
 
-        However, there has been a decline in the number of times during the COVID-19 pandemic.
+    #     However, there has been a decline in the number of times during the COVID-19 pandemic.
 
-        If there is no pandemic, it is predicted that film production will continue to increase.
-        ''')
-
-
-    st.subheader('\n')
-    st.header('Movie Duration Distribution')
-    scatter1, scatter2, scatter3 = st.columns([1,1,1])
-    with scatter1:
-        fig = px.scatter(data, x='year', y='duration', width = 450, height=450,
-                 labels={'year':'Year','duration':'Duration'})
-        st.write(fig)
-
-    with scatter2:
-        fig = px.histogram(data, x='duration', width = 450, height=450,
-                   labels={'duration':'Duration'},
-                   nbins=40)
-        st.write(fig)
-
-    with scatter3:
-        st.subheader('\n')
-        st.subheader('\n')
-        st.subheader('\n')
-        st.subheader('\n')
-        st.subheader('\n')
-        st.subheader('Duration of movies mostly around 80 - 120 mins')
-
-    st.subheader('\n')
-    st.header('Movie Genre Distribution')
-
-    time1, time2, time3, time4, time5 = st.columns([3,2,3,2,9])
-
-    with time1:
-        min = st.number_input('From year', min_value=1913, max_value=2022, value=1913)
-
-    with time3:
-        max = st.number_input('To year', min_value=1913, max_value=2022, value=2022)
-
-    list_genre = ['Action', 'Adult', 'Adventure', 'Animation',
-        'Biography', 'Comedy', 'Crime', 'Drama', 'Family', 'Fantasy', 'Film-Noir', 'Horror', 'History',
-        'Music', 'Mystery', 'Romance', 'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western']
-
-    tabel = []
-
-    for i in list_genre:
-        a = []
-        x = data['title'][(data['is_'+i] == 1) & (data['year']>=min) & (data['year']<=max)].count()
-        a.append(i)
-        a.append(x)
-        tabel.append(a)
-
-    table = pd.DataFrame(tabel, columns=['Genre', 'Total'])
-    table = table.sort_values('Total', ascending=False).reset_index(drop=True).head(5)
-    table.index = table.index + 1
-
-    table_genre1, table_genre2 = st.columns([1,1])
-    with table_genre1:
-        table = table.sort_values(by='Total', ascending=False).head(5)
-        fig = px.bar(table, x='Total', y='Genre',
-                    text='Genre',
-                    color='Genre',
-                    labels={'Total':'Total'},
-                    width=650, height=325)
-        fig.update_traces(textfont_size=16, textangle=0, textposition='inside',insidetextanchor ='start')
-        fig.update_yaxes(visible=False)
-        fig.update_layout(showlegend=False)
-        st.write(fig)
-
-    with table_genre2:
-        a = table.iloc[0,0]
-        b = table.iloc[1,0]
-        c = table.iloc[2,0]
-        d = table.iloc[3,0]
-        e = table.iloc[4,0]
-
-        st.subheader('\n')
-        st.subheader('\n')
-        st.subheader('\n')
-        st.info(f'''
-        **{a}**, **{b}**, **{c}**, **{d}**, and **{e}** are the most widely produced film from **{min}** until **{max}**.
-
-        Next, we will see what the best films are based on ratings for those genre.
-        ''')
-
-    list_genre = ['Action', 'Adult', 'Adventure', 'Animation',
-    'Biography', 'Comedy', 'Crime', 'Drama', 'Family', 'Fantasy', 'Film-Noir', 'Horror', 'History',
-    'Music', 'Mystery', 'Romance', 'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western']
+    #     If there is no pandemic, it is predicted that film production will continue to increase.
+    #     ''')
 
 
+    # st.subheader('\n')
+    # st.header('Movie Duration Distribution')
+    # scatter1, scatter2, scatter3 = st.columns([1,1,1])
+    # with scatter1:
+    #     fig = px.scatter(data, x='year', y='duration', width = 450, height=450,
+    #              labels={'year':'Year','duration':'Duration'})
+    #     st.write(fig)
 
-    tabel = []
+    # with scatter2:
+    #     fig = px.histogram(data, x='duration', width = 450, height=450,
+    #                labels={'duration':'Duration'},
+    #                nbins=40)
+    #     st.write(fig)
 
-    for i in list_genre:
-        tab_year = 0
-        for j in range(1913,2023):
-            tab = []
-            x = data['title'][(data['is_'+i] == 1) & (data['year'] == j)].count()
-            tab_year = x + tab_year
-            tab.append(i)
-            tab.append(j)
-            tab.append(tab_year)
-            j = j+1
-            tabel.append(tab)
+    # with scatter3:
+    #     st.subheader('\n')
+    #     st.subheader('\n')
+    #     st.subheader('\n')
+    #     st.subheader('\n')
+    #     st.subheader('\n')
+    #     st.subheader('Duration of movies mostly around 80 - 120 mins')
 
-    table = pd.DataFrame(tabel, columns=['Genre','Year', 'Total'])
+    # st.subheader('\n')
+    # st.header('Movie Genre Distribution')
 
-    race = st.checkbox('Race Bar Chart')
-    if race:
-        fig = px.bar(table, x='Total', y='Genre',
-             title='Movie Genre',
-             color='Genre',
-             animation_frame='Year',
-             range_x=[0,6000],
-             height=600,
-             width =1000)
+    # time1, time2, time3, time4, time5 = st.columns([3,2,3,2,9])
 
-        fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 100
-        fig.update_yaxes(categoryorder='total ascending')
-        fig.update_layout(showlegend=False)
-        st.write(fig)
+    # with time1:
+    #     min = st.number_input('From year', min_value=1913, max_value=2022, value=1913)
 
-    st.subheader('\n')
-    st.header(f"Top Movie Based on Genre from {min} until {max}")
+    # with time3:
+    #     max = st.number_input('To year', min_value=1913, max_value=2022, value=2022)
 
-    movie1, movie2, movie3, movie4, movie5 = st.columns([1,1,1,1,1])
-    with movie1:
-        st.subheader(a)
-        data_genre = data.sort_values('rate', ascending=False)
-        data_genre = data_genre[(data_genre['is_'+a]==1) & (data['year']>=min) & (data['year']<=max)].head(5)
-        list_genre = data_genre['title'].reset_index(drop=True)
-        list_genre.index = list_genre.index + 1
-        st.table(list_genre)
+    # list_genre = ['Action', 'Adult', 'Adventure', 'Animation',
+    #     'Biography', 'Comedy', 'Crime', 'Drama', 'Family', 'Fantasy', 'Film-Noir', 'Horror', 'History',
+    #     'Music', 'Mystery', 'Romance', 'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western']
+
+    # tabel = []
+
+    # for i in list_genre:
+    #     a = []
+    #     x = data['title'][(data['is_'+i] == 1) & (data['year']>=min) & (data['year']<=max)].count()
+    #     a.append(i)
+    #     a.append(x)
+    #     tabel.append(a)
+
+    # table = pd.DataFrame(tabel, columns=['Genre', 'Total'])
+    # table = table.sort_values('Total', ascending=False).reset_index(drop=True).head(5)
+    # table.index = table.index + 1
+
+    # table_genre1, table_genre2 = st.columns([1,1])
+    # with table_genre1:
+    #     table = table.sort_values(by='Total', ascending=False).head(5)
+    #     fig = px.bar(table, x='Total', y='Genre',
+    #                 text='Genre',
+    #                 color='Genre',
+    #                 labels={'Total':'Total'},
+    #                 width=650, height=325)
+    #     fig.update_traces(textfont_size=16, textangle=0, textposition='inside',insidetextanchor ='start')
+    #     fig.update_yaxes(visible=False)
+    #     fig.update_layout(showlegend=False)
+    #     st.write(fig)
+
+    # with table_genre2:
+    #     a = table.iloc[0,0]
+    #     b = table.iloc[1,0]
+    #     c = table.iloc[2,0]
+    #     d = table.iloc[3,0]
+    #     e = table.iloc[4,0]
+
+    #     st.subheader('\n')
+    #     st.subheader('\n')
+    #     st.subheader('\n')
+    #     st.info(f'''
+    #     **{a}**, **{b}**, **{c}**, **{d}**, and **{e}** are the most widely produced film from **{min}** until **{max}**.
+
+    #     Next, we will see what the best films are based on ratings for those genre.
+    #     ''')
+
+    # list_genre = ['Action', 'Adult', 'Adventure', 'Animation',
+    # 'Biography', 'Comedy', 'Crime', 'Drama', 'Family', 'Fantasy', 'Film-Noir', 'Horror', 'History',
+    # 'Music', 'Mystery', 'Romance', 'Sci-Fi', 'Sport', 'Thriller', 'War', 'Western']
+
+
+
+    # tabel = []
+
+    # for i in list_genre:
+    #     tab_year = 0
+    #     for j in range(1913,2023):
+    #         tab = []
+    #         x = data['title'][(data['is_'+i] == 1) & (data['year'] == j)].count()
+    #         tab_year = x + tab_year
+    #         tab.append(i)
+    #         tab.append(j)
+    #         tab.append(tab_year)
+    #         j = j+1
+    #         tabel.append(tab)
+
+    # table = pd.DataFrame(tabel, columns=['Genre','Year', 'Total'])
+
+    # race = st.checkbox('Race Bar Chart')
+    # if race:
+    #     fig = px.bar(table, x='Total', y='Genre',
+    #          title='Movie Genre',
+    #          color='Genre',
+    #          animation_frame='Year',
+    #          range_x=[0,6000],
+    #          height=600,
+    #          width =1000)
+
+    #     fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 100
+    #     fig.update_yaxes(categoryorder='total ascending')
+    #     fig.update_layout(showlegend=False)
+    #     st.write(fig)
+
+    # st.subheader('\n')
+    # st.header(f"Top Movie Based on Genre from {min} until {max}")
+
+    # movie1, movie2, movie3, movie4, movie5 = st.columns([1,1,1,1,1])
+    # with movie1:
+    #     st.subheader(a)
+    #     data_genre = data.sort_values('rate', ascending=False)
+    #     data_genre = data_genre[(data_genre['is_'+a]==1) & (data['year']>=min) & (data['year']<=max)].head(5)
+    #     list_genre = data_genre['title'].reset_index(drop=True)
+    #     list_genre.index = list_genre.index + 1
+    #     st.table(list_genre)
         
-    with movie2:
-        st.subheader(b)
-        data_genre = data.sort_values('rate', ascending=False)
-        data_genre = data_genre[(data_genre['is_'+b]==1) & (data['year']>=min) & (data['year']<=max)].head(5)
-        list_genre = data_genre['title'].reset_index(drop=True)
-        list_genre.index = list_genre.index + 1
-        st.table(list_genre)
+    # with movie2:
+    #     st.subheader(b)
+    #     data_genre = data.sort_values('rate', ascending=False)
+    #     data_genre = data_genre[(data_genre['is_'+b]==1) & (data['year']>=min) & (data['year']<=max)].head(5)
+    #     list_genre = data_genre['title'].reset_index(drop=True)
+    #     list_genre.index = list_genre.index + 1
+    #     st.table(list_genre)
 
-    with movie3:
-        st.subheader(c)
-        data_genre = data.sort_values('rate', ascending=False)
-        data_genre = data_genre[(data_genre['is_'+c]==1) & (data['year']>=min) & (data['year']<=max)].head(5)
-        list_genre = data_genre['title'].reset_index(drop=True)
-        list_genre.index = list_genre.index + 1
-        st.table(list_genre)
+    # with movie3:
+    #     st.subheader(c)
+    #     data_genre = data.sort_values('rate', ascending=False)
+    #     data_genre = data_genre[(data_genre['is_'+c]==1) & (data['year']>=min) & (data['year']<=max)].head(5)
+    #     list_genre = data_genre['title'].reset_index(drop=True)
+    #     list_genre.index = list_genre.index + 1
+    #     st.table(list_genre)
 
-    with movie4:
-        st.subheader(d)
-        data_genre = data.sort_values('rate', ascending=False)
-        data_genre = data_genre[(data_genre['is_'+d]==1) & (data['year']>=min) & (data['year']<=max)].head(5)
-        list_genre = data_genre['title'].reset_index(drop=True)
-        list_genre.index = list_genre.index + 1
-        st.table(list_genre)
+    # with movie4:
+    #     st.subheader(d)
+    #     data_genre = data.sort_values('rate', ascending=False)
+    #     data_genre = data_genre[(data_genre['is_'+d]==1) & (data['year']>=min) & (data['year']<=max)].head(5)
+    #     list_genre = data_genre['title'].reset_index(drop=True)
+    #     list_genre.index = list_genre.index + 1
+    #     st.table(list_genre)
 
-    with movie5:
-        st.subheader(e)
-        data_genre = data.sort_values('rate', ascending=False)
-        data_genre = data_genre[(data_genre['is_'+e]==1) & (data['year']>=min) & (data['year']<=max)].head(5)
-        list_genre = data_genre['title'].reset_index(drop=True)
-        list_genre.index = list_genre.index + 1
-        st.table(list_genre)
+    # with movie5:
+    #     st.subheader(e)
+    #     data_genre = data.sort_values('rate', ascending=False)
+    #     data_genre = data_genre[(data_genre['is_'+e]==1) & (data['year']>=min) & (data['year']<=max)].head(5)
+    #     list_genre = data_genre['title'].reset_index(drop=True)
+    #     list_genre.index = list_genre.index + 1
+    #     st.table(list_genre)
 
 
-    st.subheader('\n')
-    st.header('Most Played Actor')
+    # st.subheader('\n')
+    # st.header('Most Played Actor')
 
-    actor1 = data['star1'].tolist()
-    actor2 = data['star2'].tolist()
-    actor3 = data['star3'].tolist()
-    actor4 = data['star4'].tolist()
+    # actor1 = data['star1'].tolist()
+    # actor2 = data['star2'].tolist()
+    # actor3 = data['star3'].tolist()
+    # actor4 = data['star4'].tolist()
 
-    actor = actor1 + actor2 + actor3 + actor4
+    # actor = actor1 + actor2 + actor3 + actor4
 
-    data_actor = pd.DataFrame(actor, columns =['Actor']) 
+    # data_actor = pd.DataFrame(actor, columns =['Actor']) 
 
-    value_counts = data_actor['Actor'].value_counts(dropna=True, sort=True)
+    # value_counts = data_actor['Actor'].value_counts(dropna=True, sort=True)
 
-    data_counts = pd.DataFrame(value_counts)
-    data_counts = data_counts.reset_index()
-    data_counts.columns = ['Actor', 'Total']
-    data_counts.index = data_counts.index + 1
+    # data_counts = pd.DataFrame(value_counts)
+    # data_counts = data_counts.reset_index()
+    # data_counts.columns = ['Actor', 'Total']
+    # data_counts.index = data_counts.index + 1
 
-    most_actor = data_counts.sort_values('Total', ascending=False)['Actor'].head(1).values[0]
-    count1, count2, count3 = st.columns([2,1,2])
-    with count1:
-        st.table(data_counts.head(10))
-        st.info(f'Most played actor is {most_actor}')
+    # most_actor = data_counts.sort_values('Total', ascending=False)['Actor'].head(1).values[0]
+    # count1, count2, count3 = st.columns([2,1,2])
+    # with count1:
+    #     st.table(data_counts.head(10))
+    #     st.info(f'Most played actor is {most_actor}')
     
-    with count3:
-        st.info(f'Top film acted by {most_actor}')
-        most_actor = most_actor.lower()
-        movie_actor = data[data['star'].str.contains(most_actor)]
-        movie_actor = movie_actor.sort_values('rate', ascending=False)
-        movie_title = movie_actor[['title','genre']].reset_index(drop=True).head(10)
-        movie_title.index = movie_title.index + 1
-        st.table(movie_title)
+    # with count3:
+    #     st.info(f'Top film acted by {most_actor}')
+    #     most_actor = most_actor.lower()
+    #     movie_actor = data[data['star'].str.contains(most_actor)]
+    #     movie_actor = movie_actor.sort_values('rate', ascending=False)
+    #     movie_title = movie_actor[['title','genre']].reset_index(drop=True).head(10)
+    #     movie_title.index = movie_title.index + 1
+    #     st.table(movie_title)
 
 
 if menu_id == 'Quiz':
