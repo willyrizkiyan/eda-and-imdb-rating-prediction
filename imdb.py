@@ -86,13 +86,13 @@ if menu_id == 'Dashboard':
     '''
     ***
     '''
-    data_movie = pd.DataFrame(data['year'].value_counts()).reset_index().rename(columns={'index': 'year', 'year':'total'}).sort_values('year')    
+    data_movie = pd.DataFrame(data['tahun'].value_counts()).reset_index().rename(columns={'index': 'tahun', 'tahun':'total'}).sort_values('tahun')    
     
     st.header('Total Movie Every Year')
     movie1, movie2= st.columns([2,1])
     with movie1:
         fig = px.line(data_movie, x='year', y='total',
-              labels={'year':'Year','total':'Total Film'}, 
+              labels={'tahun':'Year','total':'Total Film'}, 
               markers=True, height=400, width = 900)
         st.write(fig)
 
@@ -113,8 +113,8 @@ if menu_id == 'Dashboard':
     st.header('Movie Duration Distribution')
     scatter1, scatter2, scatter3 = st.columns([1,1,1])
     with scatter1:
-        fig = px.scatter(data, x='year', y='duration', width = 450, height=450,
-                 labels={'year':'Year','duration':'Duration'})
+        fig = px.scatter(data, x='tahun', y='duration', width = 450, height=450,
+                 labels={'tahun':'Year','duration':'Duration'})
         st.write(fig)
 
     with scatter2:
@@ -150,7 +150,7 @@ if menu_id == 'Dashboard':
 
     for i in list_genre:
         a = []
-        x = data['title'][(data['is_'+i] == 1) & (data['year']>=min) & (data['year']<=max)].count()
+        x = data['title'][(data['is_'+i] == 1) & (data['tahun']>=min) & (data['tahun']<=max)].count()
         a.append(i)
         a.append(x)
         tabel.append(a)
@@ -200,7 +200,7 @@ if menu_id == 'Dashboard':
         tab_year = 0
         for j in range(1913,2023):
             tab = []
-            x = data['title'][(data['is_'+i] == 1) & (data['year'] == j)].count()
+            x = data['title'][(data['is_'+i] == 1) & (data['tahun'] == j)].count()
             tab_year = x + tab_year
             tab.append(i)
             tab.append(j)
@@ -232,7 +232,7 @@ if menu_id == 'Dashboard':
     with movie1:
         st.subheader(a)
         data_genre = data.sort_values('rate', ascending=False)
-        data_genre = data_genre[(data_genre['is_'+a]==1) & (data['year']>=min) & (data['year']<=max)].head(5)
+        data_genre = data_genre[(data_genre['is_'+a]==1) & (data['tahun']>=min) & (data['tahun']<=max)].head(5)
         list_genre = data_genre['title'].reset_index(drop=True)
         list_genre.index = list_genre.index + 1
         st.table(list_genre)
@@ -240,7 +240,7 @@ if menu_id == 'Dashboard':
     with movie2:
         st.subheader(b)
         data_genre = data.sort_values('rate', ascending=False)
-        data_genre = data_genre[(data_genre['is_'+b]==1) & (data['year']>=min) & (data['year']<=max)].head(5)
+        data_genre = data_genre[(data_genre['is_'+b]==1) & (data['tahun']>=min) & (data['tahun']<=max)].head(5)
         list_genre = data_genre['title'].reset_index(drop=True)
         list_genre.index = list_genre.index + 1
         st.table(list_genre)
@@ -248,7 +248,7 @@ if menu_id == 'Dashboard':
     with movie3:
         st.subheader(c)
         data_genre = data.sort_values('rate', ascending=False)
-        data_genre = data_genre[(data_genre['is_'+c]==1) & (data['year']>=min) & (data['year']<=max)].head(5)
+        data_genre = data_genre[(data_genre['is_'+c]==1) & (data['tahun']>=min) & (data['tahun']<=max)].head(5)
         list_genre = data_genre['title'].reset_index(drop=True)
         list_genre.index = list_genre.index + 1
         st.table(list_genre)
@@ -256,7 +256,7 @@ if menu_id == 'Dashboard':
     with movie4:
         st.subheader(d)
         data_genre = data.sort_values('rate', ascending=False)
-        data_genre = data_genre[(data_genre['is_'+d]==1) & (data['year']>=min) & (data['year']<=max)].head(5)
+        data_genre = data_genre[(data_genre['is_'+d]==1) & (data['tahun']>=min) & (data['tahun']<=max)].head(5)
         list_genre = data_genre['title'].reset_index(drop=True)
         list_genre.index = list_genre.index + 1
         st.table(list_genre)
@@ -264,7 +264,7 @@ if menu_id == 'Dashboard':
     with movie5:
         st.subheader(e)
         data_genre = data.sort_values('rate', ascending=False)
-        data_genre = data_genre[(data_genre['is_'+e]==1) & (data['year']>=min) & (data['year']<=max)].head(5)
+        data_genre = data_genre[(data_genre['is_'+e]==1) & (data['tahun']>=min) & (data['tahun']<=max)].head(5)
         list_genre = data_genre['title'].reset_index(drop=True)
         list_genre.index = list_genre.index + 1
         st.table(list_genre)
