@@ -88,7 +88,7 @@ if menu_id == 'Dashboard':
     '''
 
     data_movie = pd.DataFrame(data['year'].value_counts()).reset_index().rename(
-    columns={'index': 'year', 'year':'total'}).sort_values('year')    
+    columns={'year': 'year', 'count':'total'}).sort_values('year')    
     
     st.header('Total Movie Every Year')
     movie1, movie2= st.columns([2,1])
