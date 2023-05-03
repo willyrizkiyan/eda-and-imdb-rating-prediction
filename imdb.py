@@ -88,14 +88,16 @@ if menu_id == 'Dashboard':
     '''
 
     data_movie = pd.DataFrame(data['year'].value_counts()).reset_index().rename(
-    columns={'year': 'year', 'count':'total'}).sort_values('year')    
+    columns={'index': 'year', 'year':'total'}).sort_values('year')    
     
     st.header('Total Movie Every Year')
     movie1, movie2= st.columns([2,1])
     with movie1:
         fig = px.line(data_movie, x='year', y='total',
               labels={'year':'Year','total':'Total Film'}, 
-              markers=True)
+              markers=True,
+              height=400, width = 700
+              )
         st.write(fig)
 
     with movie2:
@@ -115,12 +117,12 @@ if menu_id == 'Dashboard':
     st.header('Movie Duration Distribution')
     scatter1, scatter2, scatter3 = st.columns([1,1,1])
     with scatter1:
-        fig = px.scatter(data, x='year', y='duration',
+        fig = px.scatter(data, x='year', y='duration', width = 350, height=350,
                  labels={'year':'Year','duration':'Duration'})
         st.write(fig)
 
     with scatter2:
-        fig = px.histogram(data, x='duration',
+        fig = px.histogram(data, x='duration', width = 350, height=350,
                    labels={'duration':'Duration'},
                    nbins=40)
         st.write(fig)
@@ -167,7 +169,8 @@ if menu_id == 'Dashboard':
         fig = px.bar(table, x='Total', y='Genre',
                     text='Genre',
                     color='Genre',
-                    labels={'Total':'Total'})
+                    labels={'Total':'Total'},
+                    width=550, height=325)
         fig.update_traces(textfont_size=16, textangle=0, textposition='inside',insidetextanchor ='start')
         fig.update_yaxes(visible=False)
         fig.update_layout(showlegend=False)
@@ -320,11 +323,11 @@ if menu_id == 'Quiz':
     success = st.radio('', ('Pick One :','Avengers: Infinity War', 'Avengers: Endgame', 'Avatar'), horizontal=True)
     img1, img2, img3, img4, img5, img6 = st.columns(6)
     with img1:
-        st.image('https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_.jpg', width=200)
+        st.image('https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_.jpg', width=175)
     with img2:
-        st.image('https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_.jpg', width=200)
+        st.image('https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_.jpg', width=175)
     with img3:
-        st.image('https://m.media-amazon.com/images/M/MV5BZDA0OGQxNTItMDZkMC00N2UyLTg3MzMtYTJmNjg3Nzk5MzRiXkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_.jpg', width=200)
+        st.image('https://m.media-amazon.com/images/M/MV5BZDA0OGQxNTItMDZkMC00N2UyLTg3MzMtYTJmNjg3Nzk5MzRiXkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_.jpg', width=175)
     if success == 'Avatar':
         st.success('You Are Right')
         bud1, bud2, bud3 = st.columns([1,1,1])
