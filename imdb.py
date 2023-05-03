@@ -170,7 +170,7 @@ if menu_id == 'Dashboard':
                     text='Genre',
                     color='Genre',
                     labels={'Total':'Total'},
-                    width=550, height=325)
+                    width=650, height=325)
         fig.update_traces(textfont_size=16, textangle=0, textposition='inside',insidetextanchor ='start')
         fig.update_yaxes(visible=False)
         fig.update_layout(showlegend=False)
