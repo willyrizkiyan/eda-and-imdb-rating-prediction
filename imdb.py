@@ -86,7 +86,6 @@ if menu_id == 'Dashboard':
     '''
     ***
     '''
-#     st.write(data['year'].value_counts().reset_index())
 
     data_movie = pd.DataFrame(data['year'].value_counts()).reset_index().rename(
     columns={'year': 'year', 'count':'total'}).sort_values('year')    
@@ -96,7 +95,7 @@ if menu_id == 'Dashboard':
     with movie1:
         fig = px.line(data_movie, x='year', y='total',
               labels={'year':'Year','total':'Total Film'}, 
-              markers=True, height=400, width = 900)
+              markers=True)
         st.write(fig)
 
     with movie2:
@@ -116,12 +115,12 @@ if menu_id == 'Dashboard':
     st.header('Movie Duration Distribution')
     scatter1, scatter2, scatter3 = st.columns([1,1,1])
     with scatter1:
-        fig = px.scatter(data, x='year', y='duration', width = 450, height=450,
+        fig = px.scatter(data, x='year', y='duration',
                  labels={'year':'Year','duration':'Duration'})
         st.write(fig)
 
     with scatter2:
-        fig = px.histogram(data, x='duration', width = 450, height=450,
+        fig = px.histogram(data, x='duration',
                    labels={'duration':'Duration'},
                    nbins=40)
         st.write(fig)
@@ -168,8 +167,7 @@ if menu_id == 'Dashboard':
         fig = px.bar(table, x='Total', y='Genre',
                     text='Genre',
                     color='Genre',
-                    labels={'Total':'Total'},
-                    width=650, height=325)
+                    labels={'Total':'Total'})
         fig.update_traces(textfont_size=16, textangle=0, textposition='inside',insidetextanchor ='start')
         fig.update_yaxes(visible=False)
         fig.update_layout(showlegend=False)
