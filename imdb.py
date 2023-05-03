@@ -117,12 +117,12 @@ if menu_id == 'Dashboard':
     st.header('Movie Duration Distribution')
     scatter1, scatter2, scatter3 = st.columns([1,1,1])
     with scatter1:
-        fig = px.scatter(data, x='year', y='duration', width = 400, height=350,
+        fig = px.scatter(data, x='year', y='duration', width = 450, height=400,
                  labels={'year':'Year','duration':'Duration'})
         st.write(fig)
 
     with scatter2:
-        fig = px.histogram(data, x='duration', width = 400, height=350,
+        fig = px.histogram(data, x='duration', width = 450, height=400,
                    labels={'duration':'Duration'},
                    nbins=40)
         st.write(fig)
