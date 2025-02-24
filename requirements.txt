@@ -13,3 +13,4 @@ lightgbm==3.3.2
 hydralit-components==1.0.10
 joblib==1.1.0
 plotly==5.10.0
+streamlit-annotated-text
