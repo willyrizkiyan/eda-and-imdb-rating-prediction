@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-from streamlit_annotated_text import annotated_text
+from annotated_text import annotated_text
 import scipy.stats as stat
 from numerize import numerize
 from sklearn.linear_model import Ridge
